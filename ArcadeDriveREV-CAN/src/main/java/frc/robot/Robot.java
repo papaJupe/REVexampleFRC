@@ -78,7 +78,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     double power = -(my_joyStick.getRawAxis(1));
     double turn = (my_joyStick.getRawAxis(4));
-    // deadband
+    // deadband, larger than default in Diff.Drive super
     if (Math.abs(power) < 0.05)
       power = 0;
     if (Math.abs(turn) < 0.05)
