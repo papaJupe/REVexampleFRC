@@ -1,0 +1,32 @@
+REVmethod.txt from Spk Max doc, migrate from CTRE to SpkMax
+
+set velocity to 500 rpm
+pidController.setReference(500.0, ControlType.kVelocity);
+
+run position control for 10 rotations
+pidController.setReference(10.0, ControlType.kPosition);
+
+robot class var:
+private RelativeEncoder _enco;
+
+in robotInit
+_enco = CanMotorInstance.getEncoder();
+convert pos mode to input inch, wheel diam" / motoRot to wheel ratio
+encoder.setPositionFactor(M_PI * 4/15); may now be:
+setPositionConversionFactor()
+vs. Talon need actual tick value in param
+[targetPositionRotations = (M_PI * 4 / 15 * 4096) * 24;
+talonSRX.set(ControlMode.Position, targetPositionRotations);]
+
+now reference will use inch set point
+pidController.setReference(24.0, ControlType.kPosition);
+
+ to rezero encoder or set to N, from
+     Class SparkMaxRelativeEncoder javadoc
+ setPosition​(double position)
+... By default the units are 'rotations' and can be changed by a scale factor using setPositionConversionFactor() v.s.
+
+save setting to controller
+// put after all parameters are set in RobotInit()
+sparkMax.burnFlash();
+
