@@ -40,7 +40,7 @@ public class Robot extends TimedRobot {
 
   // private Command _autoComm;
   private Command _teleComd;
-  private int _driveSetting; // <-- teleOp gets set point input from user
+  private double _driveSetting; // <-- teleOp gets set point input from user
   public static double autoDriveInch = 42; // how far to auto, all cmd use
 
   @Override
@@ -157,15 +157,15 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     // super class method of subsyst may do something here,
     // but seems like autoInit runs seqCmdGroup as well
-  }u
+  }
 
   @Override
   public void teleopInit() {
-    // rezero encoder reading every teleop startup
+    // rezero encoder reading every teleop start
     _leftEncoder.setPosition(0);
-    _driveSetting = SmartDashboard.getNumber("driveSetting", 0);
-    _teleComm = new GoToPosition(_driveSetting);
-    _teleComm.schedule(); // needs to be here for one-off cmd to work
+    _driveSetting = SmartDashboard.getNumber("driveSetting", 0.0);
+    _teleComd = new GoToPosition(_driveSetting);
+    _teleComd.schedule(); // needs to be here for one-off cmd to work
   } // end teleopInit
 
   @Override

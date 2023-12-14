@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class GoToPosition extends CommandBase {
 
   private double _inchTarget;
-  private int leftEnco;
+  private double leftEnco;
   private int loopCount = 0; // for printing var
 
   // CONSTRUCTOR Creates a new GoTo(target)Position cmd

@@ -84,7 +84,7 @@ public class DriveSubsys extends SubsystemBase {
 
   // param received here in inches; zeroEnco() called in 
   // init() of GoToPosition cmd, so don't repeat here
-  public void goStraightPosition(int target) {
+  public void goStraightPosition(double target) {
 
     _leftPIDControl.setReference(target, CANSparkMax.ControlType.kPosition);
   }
