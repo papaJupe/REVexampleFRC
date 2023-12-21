@@ -8,7 +8,7 @@
 // v.1 set PID position on one NEO motor; user could tune PID param
 // for unloaded Neo, rotation 10-100 ; no manual control, RC, OI, Constant
                                                          
-// v.2 added one autoComd (set position), user can set to a pos. in teleOp
+// v.2 added one autoComd (set position), or user can set pos. in teleOp
 
 package frc.robot;
 
@@ -70,7 +70,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Max Output", kMaxOutput);
     SmartDashboard.putNumber("Min Output", kMinOutput);
 
-    // to set desired set point position
+    // init field for desired position set point
     SmartDashboard.putNumber("driveSetting", 0);
     // to show actual encoder value
     SmartDashboard.putNumber("encodValue", 0);
@@ -155,13 +155,14 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     // super class method of subsyst may do something here,
-    // but seems like autoInit runs seqCmdGroup as well
+    // but seems like autoInit runs seqCmdGroup as it does others
   }
 
   @Override
   public void teleopInit() {
     // rezero encoder reading every teleop start
     leftEncoder.setPosition(0);
+    // get new desired position value
     driveSetting = SmartDashboard.getNumber("driveSetting", 0.0);
     teleComd = new GoToPosition(driveSetting);
     teleComd.schedule(); // needs to be here for one-off cmd to work
@@ -171,12 +172,12 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     SmartDashboard.putNumber("encodValue", leftEncoder.getPosition());
     // this worked, used rot/drive var set by SD field, motor class's method;
-    // but bypasses GTP cmd, so no isFin() evaluated
+    // but bypasses GTP cmd, so isFin() not evaluated
     // leftPIDControl.setReference(driveSetting,
-    // CANSparkMax.ControlType.kPosition);
-    // use GTP instead (v.i.) to assure position finish occured.
+    //             CANSparkMax.ControlType.kPosition);
+    // I use GTP instead (v.i.) to assure position cmd finish occured.
     // can I add manual joy drive method too? Y, I put motor class method
-    // in subsys's periodic() and works in parallel with position PID control
+    // in subsys's periodic(), works alongside SmtDash position control
   } // end teleoPeriod
 
   @Override

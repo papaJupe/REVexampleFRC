@@ -1,6 +1,6 @@
 // closeLooPosCtlCmdAuto - REV                      Robot.j
 
-// base: mod REV example to test/tune PID position on one NEO motor,
+// base v. 1: mod REV example to test/tune PID position on one NEO motor,
 //      use SmtDash for var display & live param edit
 // this vers. add single auto Cmd to position, ensure isFin() for cmd, user 
 // can cmd to position in teleOp from SmtDash. All working in bench setup.
@@ -58,7 +58,7 @@ public class Robot extends TimedRobot {
     double min = SmartDashboard.getNumber("Min Output", 0);
 
     // if PID coeffic on SmartDash changed, write new value to controller
-    //  writing to static var, so reset in subsys as well, I hope
+    // --  writing to static var, so reset in subsys as well, I hope
     if ((p != kP)) {
       leftPIDControl.setP(p);
       kP = p;
@@ -112,7 +112,7 @@ public class Robot extends TimedRobot {
     leftEncoder.setPosition(0);  
     // get updated position setting if there is one on SmtDash
     driveSetting = SmartDashboard.getNumber("driveSetting", 0);
-    teleComm = new GoToPosition( driveSetting);
+    teleComm = new GoToPosition(driveSetting);
     teleComm.schedule();  // needs to be here for one-off cmd to work
   } // end teleopInit
 
@@ -123,7 +123,7 @@ public class Robot extends TimedRobot {
     //  method; but bypasses GTP cmd, so no isFin() evaluated
     // leftPIDControl.setReference(_driveSetting,
     //                CANSparkMax.ControlType.kPosition);
-    // I use GTP instead in teleInit, to assure cmd finishes
+    // I use GTP cmd instead in teleInit, to assure cmd finishes
   } // end teleoPeriod
 
 @Override
@@ -140,9 +140,9 @@ public void disabledInit() {
   SmartDashboard.putNumber("Feed Forward", kFF);
   SmartDashboard.putNumber("Max Output", kMaxOutput);
   SmartDashboard.putNumber("Min Output", kMinOutput);
-  // can set desired position 
+  // display desired position, set above in teleInit
   SmartDashboard.putNumber("driveSetting", 0);
-  //show actual encod value (should be 0 from above())
+  //show actual encod value (should be 0 from teleInit)
   SmartDashboard.putNumber("encodValue",  leftEncoder.getPosition());
   SmartDashboard.putString("GTPcmd fin?", "???");
 

@@ -1,9 +1,9 @@
 // CloseLooPosCtlBase                     Robot.j
-
+// v. 1
 // orig REV closeLoop example, mod here to test PID position control on one
 // NEO motor; tuned PID constants for unloaded Neo, rotation 10-100;
 // interactive SmartDashbd displays current values, user can change, rerun
-// all code in this class
+// to see effect; all code is in this one class.
 
 package frc.robot;
 
@@ -42,7 +42,9 @@ public class Robot extends TimedRobot {
 
     // Encoder object created to display position values for an existing 
     // CANSparkMax object
-    m_encoder = m_motor.getEncoder();
+    m_encoder = m_motor.getEncoder(); // as is, getPosition outputs rotations
+    // need to enter setPositionConversionFactor() for your mechanism
+    // for the encoder to give position units of choice
 
     // PID coefficients, free running w/o load
     kP = 0.15; 
@@ -118,7 +120,8 @@ public class Robot extends TimedRobot {
      *  com.revrobotics.CANSparkMax.ControlType.kVelocity
      *  com.revrobotics.CANSparkMax.ControlType.kVoltage
      */
-  // rot set pt. set on SmtDash, then redisplayed, along with encod value now
+  // command rotation set pt. to input from SmtDash (above), 
+  // then redisplay to SmtDash, along with encod value now
   m_pidController.setReference(rotations,CANSparkMax.ControlType.kPosition);
     
     SmartDashboard.putNumber("RotatSetting", rotations);
