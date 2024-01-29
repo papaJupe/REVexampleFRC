@@ -183,10 +183,10 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     // needed to reset sticky var in code, problematic on repeat cmd call
-    // mainly a problem SD displaying old values
+    // mainly a problem w/ SmtDash displaying old values
     leftEncoder.setPosition(0);
 
-    // refresh PID coefficient (from current code var) on SmartDashboard
+    // refresh PID coefficient on SmartDashboard (from current code var)
     SmartDashboard.putNumber("P Gain", kP);
     SmartDashboard.putNumber("I Gain", kI);
     SmartDashboard.putNumber("D Gain", kD);
@@ -194,7 +194,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Feed Forward", kFF);
     SmartDashboard.putNumber("Max Output", kMaxOutput);
     SmartDashboard.putNumber("Min Output", kMinOutput);
-    // set desired position 
+    // clear current desired position 
     SmartDashboard.putNumber("driveSetting", 0);
     // show actual encod value (should be 0)
     SmartDashboard.putNumber("encodValue", leftEncoder.getPosition());
